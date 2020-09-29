@@ -75,6 +75,16 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
         It is not possible to move via any path of length 5 from (10, 2) to (10, 4), however.
         */
 
+        /// <summary>
+        /// Determine whether it is possible to get from one point to the next 
+        /// using the exact number of electricity units given.
+        /// </summary>
+        /// <param name="x1">x coordinate of first point</param>
+        /// <param name="y1">y coordinate of first point</param>
+        /// <param name="x2">x coordinate of second point</param>
+        /// <param name="y2">y coordinate of second point</param>
+        /// <param name="electricity">units of electricity</param>
+        /// <returns>Y indicates yes, N indicates no.</returns>
         [Route("api/J3/ExactlyElectrical/{x1}/{y1}/{x2}/{y2}/{electricity}")]
         public char Get( int x1, int y1, int x2, int y2, int electricity )
         {
