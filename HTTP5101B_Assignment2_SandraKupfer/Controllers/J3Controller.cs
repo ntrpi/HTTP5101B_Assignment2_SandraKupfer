@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
 {
-    public class J3Controller : ApiController
+    public class J3Controller: ApiController
     {
         /*
         https://cemc.math.uwaterloo.ca/contests/computing/2017/stage%201/juniorEF.pdf
@@ -85,14 +85,21 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
         /// <param name="y2">y coordinate of second point</param>
         /// <param name="electricity">units of electricity</param>
         /// <returns>Y indicates yes, N indicates no.</returns>
-        [Route("api/J3/ExactlyElectrical/{x1}/{y1}/{x2}/{y2}/{electricity}")]
-        public char Get( int x1, int y1, int x2, int y2, int electricity )
+        [HttpGet]
+        [Route( "api/J3/ExactlyElectrical/{x1}/{y1}/{x2}/{y2}/{electricity}" )]
+        public char ExactlyElectrical( int x1, int y1, int x2, int y2, int electricity )
         {
-            int leftoverElectricity = electricity - ( Math.Abs(x2 - x1) + Math.Abs(y2 - y1) );
-            if( leftoverElectricity < 0 || leftoverElectricity % 2 != 0 ) {
-                return 'N';
-            } else {
+            int xDiff = Math.Abs( x2 - x1 );
+            int yDiff = Math.Abs( y2 - y1 );
+            int minRequiredTravel = xDiff + yDiff;
+            int leftoverElectricity = electricity - minRequiredTravel;
+
+            bool isEnoughElectricity = leftoverElectricity >= 0;
+            bool isCorrectLeftoverElectricity = leftoverElectricity % 2 != 0;
+            if( isEnoughElectricity && isCorrectLeftoverElectricity ) {
                 return 'Y';
+            } else {
+                return 'N';
             }
         }
     }

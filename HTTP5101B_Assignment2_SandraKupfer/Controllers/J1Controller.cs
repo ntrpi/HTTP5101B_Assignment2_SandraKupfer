@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
 {
-    public class J1Controller : ApiController
+    public class J1Controller: ApiController
     {
         private class CalorieCalculator
         {
@@ -23,21 +23,22 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
             /// <param name="side">Integer value between 1 and 4.</param>
             /// <param name="dessert">Integer value between 1 and 4.</param>
             /// <returns>If input is valid, the total calories are returned. Otherwise it returns -1.</returns>
-            public static int getCalories(int burger, int drink, int side, int dessert)
+            public static int getCalories( int burger, int drink, int side, int dessert )
             {
-                if (burger >= 1 || burger <= 4
-                    || drink >= 1 || drink <= 4
-                    || side >= 1 || side <= 4
-                    || dessert >= 1 || side <= 4)
-                {
-                    return burgerCalories[burger - 1]
-                    + drinkCalories[drink - 1]
-                    + sideCalories[side - 1]
-                    + dessertCalories[dessert - 1];
-                } else
-                {
-                    return -1;
+                bool isBurgerValid = burger >= 1 || burger <= 4;
+                bool isDrinkValid = drink >= 1 || drink <= 4;
+                bool isSideValid = side >= 1 || side <= 4;
+                bool isDessertValid = dessert >= 1 || dessert <= 4;
+
+                if( isBurgerValid && isDrinkValid && isSideValid && isDessertValid ) {
+
+                    return burgerCalories[ burger - 1 ]
+                    + drinkCalories[ drink - 1 ]
+                    + sideCalories[ side - 1 ]
+                    + dessertCalories[ dessert - 1 ];
                 }
+
+                return -1;
             }
         }
 
@@ -46,14 +47,17 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
             private static readonly string outputStringPrefix = "Your total calorie count is ";
             private static readonly string errorString = "Invalid input. Your calorie count could not be calculated.";
 
+            /// <summary>
+            /// Construct the output string according to the input.
+            /// </summary>
+            /// <param name="calories">Integer value representing the number of calories</param>
+            /// <returns>If the input is -1, indicate invalid input. Otherwise, return a string describing the calorie count.</returns>
             public static string getOutputString( int calories )
             {
-                if( calories == -1 )
-                {
+                if( calories == -1 ) {
                     return errorString;
-                } else
-                {
-                    return outputStringPrefix + calories.ToString();
+                } else {
+                    return outputStringPrefix + calories.ToString() + ".";
                 }
             }
         }
@@ -66,10 +70,13 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
         /// <param name="side">Integer value between 1 and 4.</param>
         /// <param name="dessert">Integer value between 1 and 4.</param>
         /// <returns>If the input is valid, a string with the total calories. Otherwise, an error message.</returns>
-        [Route("api/Ji/Menu/burger/drink/side/dessert")]
-        public string Get(int burger, int drink, int side, int dessert)
+        [HttpGet]
+        [Route( "api/Ji/Menu/burger/drink/side/dessert" )]
+        public string Menu( int burger, int drink, int side, int dessert )
         {
-            return OutputStringCreator.getOutputString(CalorieCalculator.getCalories(burger, drink, side, dessert));
+            int calories = CalorieCalculator.getCalories( burger, drink, side, dessert );
+            string outputString = OutputStringCreator.getOutputString( calories );
+            return outputString;
         }
     }
 }
