@@ -87,7 +87,7 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
         /// <returns>Y indicates yes, N indicates no.</returns>
         [HttpGet]
         [Route( "api/J3/ExactlyElectrical/{x1}/{y1}/{x2}/{y2}/{electricity}" )]
-        public char ExactlyElectrical( int x1, int y1, int x2, int y2, int electricity )
+        public string ExactlyElectrical( int x1, int y1, int x2, int y2, int electricity )
         {
             int xDiff = Math.Abs( x2 - x1 );
             int yDiff = Math.Abs( y2 - y1 );
@@ -95,11 +95,11 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
             int leftoverElectricity = electricity - minRequiredTravel;
 
             bool isEnoughElectricity = leftoverElectricity >= 0;
-            bool isCorrectLeftoverElectricity = leftoverElectricity % 2 != 0;
+            bool isCorrectLeftoverElectricity = leftoverElectricity % 2 == 0;
             if( isEnoughElectricity && isCorrectLeftoverElectricity ) {
-                return 'Y';
+                return "Y";
             } else {
-                return 'N';
+                return "N";
             }
         }
     }
