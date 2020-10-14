@@ -60,8 +60,9 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
 
             } else if( isSideTooSmall ) {
                 numWays = Math.Min( m, n );
+
             } else {
-                numWays = Math.Min( m + n - 9, 17 );
+                numWays = Math.Min( m + n - 9, 9 );
             }
 
             return OutputStringCreator.getOutputString( numWays );
