@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
 
 namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
@@ -89,12 +90,25 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
         [Route( "api/J3/ExactlyElectrical/{x1}/{y1}/{x2}/{y2}/{electricity}" )]
         public string ExactlyElectrical( int x1, int y1, int x2, int y2, int electricity )
         {
+            // Calculate the distance to travel along the x-axis.
             int xDiff = Math.Abs( x2 - x1 );
-            int yDiff = Math.Abs( y2 - y1 );
-            int minRequiredTravel = xDiff + yDiff;
-            int leftoverElectricity = electricity - minRequiredTravel;
 
+            // Calculate the distance to travel along the y-axis.
+            int yDiff = Math.Abs( y2 - y1 );
+
+            // Calculate the distance between the 2 points.
+            int minRequiredTravel = xDiff + yDiff;
+
+            // Find the amount of electricity left over after traveling from the first point to the second.
+            int leftoverElectricity = electricity - minRequiredTravel;
             bool isEnoughElectricity = leftoverElectricity >= 0;
+            if( !isEnoughElectricity ) {
+                return "N";
+            }
+
+            // After traveling to the second point, any route away from that point will have to be traversed 
+            // in reverse to return to the second point. So we know that if we want to return to the second
+            // point, the amount of leftover electricity must be divisible by 2.
             bool isCorrectLeftoverElectricity = leftoverElectricity % 2 == 0;
             if( isEnoughElectricity && isCorrectLeftoverElectricity ) {
                 return "Y";

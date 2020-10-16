@@ -11,6 +11,7 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
     {
         private class CalorieCalculator
         {
+            // Create static arrays since these values don't change.
             private static readonly int[] burgerCalories = { 461, 431, 420, 0 };
             private static readonly int[] drinkCalories = { 130, 160, 118, 0 };
             private static readonly int[] sideCalories = { 100, 57, 70, 0 };
@@ -25,6 +26,7 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
             /// <returns>If input is valid, the total calories are returned. Otherwise it returns -1.</returns>
             public static int getCalories( int burger, int drink, int side, int dessert )
             {
+                // Check that the input is valid.
                 bool isBurgerValid = burger >= 1 || burger <= 4;
                 bool isDrinkValid = drink >= 1 || drink <= 4;
                 bool isSideValid = side >= 1 || side <= 4;
@@ -44,13 +46,14 @@ namespace HTTP5101B_Assignment2_SandraKupfer.Controllers
 
         private class OutputStringCreator
         {
+            // Create static strings to minimize the garbage.
             private static readonly string outputStringPrefix = "Your total calorie count is ";
             private static readonly string errorString = "Invalid input. Your calorie count could not be calculated.";
 
             /// <summary>
             /// Construct the output string according to the input.
             /// </summary>
-            /// <param name="calories">Integer value representing the number of calories</param>
+            /// <param name="calories">A positive integer value representing the number of calories, or -1 indicating invalid input.</param>
             /// <returns>If the input is -1, indicate invalid input. Otherwise, return a string describing the calorie count.</returns>
             public static string getOutputString( int calories )
             {
